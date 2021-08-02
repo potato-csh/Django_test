@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, request, response
 from .models import BookInfo, PersonInfo
 from django.urls import reverse
+from datetime import datetime
 
 
 # Create your views here.
@@ -46,14 +47,44 @@ def get_cookie(request):
     print(username)
     return HttpResponse('第二次get_cookie')
 
+
 def set_session(requset):
     print(requset.COOKIES)
     user_id = 666
     requset.session['user_id'] = user_id
     return HttpResponse('set_session')
 
+
 def get_session(requset):
     print(requset.COOKIES)
     user_id = requset.session['user_id']
     print(user_id)
     return HttpResponse('get_session')
+
+
+#############################模板############################################
+
+from django.views import View
+
+
+class HomeView(View):
+    def get(self, request):
+        # 1.获取数据
+        username = request.GET.get('username')
+
+        # 2.组织数据
+        context = {
+            'username': username,
+            'age': 14,
+            'birthday': datetime.now(),
+            'firends': ['tom', 'jack', 'rose'],
+            'money': {
+                '2019': 12000,
+                '2020': 18000,
+                '2021': 25000,
+            },
+            'desc': '<script>alert("hot")</script>'
+        }
+
+        # return render(request,'detail.html')
+        return render(request, 'index.html', context=context)

@@ -52,10 +52,13 @@ ROOT_URLCONF = 'bookmanager.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # 'BACKEND': 'django.template.backends.django.DjangoTemplates', #默认引擎
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',  # 修改为Jinja2模板
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
+            # 'environment':'jinja2.Environment',  #默认的
+            'environment': 'book.jinja2_env.environmnet',  # 指定jinja2的环境
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -64,6 +67,22 @@ TEMPLATES = [
             ],
         },
     },
+    {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates', #默认引擎
+            # 'BACKEND': 'django.template.backends.jinja2.Jinja2',  # 修改为Jinja2模板
+            'DIRS': [os.path.join(BASE_DIR, 'templates')],
+            'APP_DIRS': True,
+            'OPTIONS': {
+                # 'environment':'jinja2.Environment',  #默认的
+                # 'environment': 'book.jinja2_env.environmnet',  # 指定jinja2的环境
+                'context_processors': [
+                    'django.template.context_processors.debug',
+                    'django.template.context_processors.request',
+                    'django.contrib.auth.context_processors.auth',
+                    'django.contrib.messages.context_processors.messages',
+                ],
+            },
+        },
 ]
 
 WSGI_APPLICATION = 'bookmanager.wsgi.application'
@@ -76,16 +95,18 @@ WSGI_APPLICATION = 'bookmanager.wsgi.application'
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': '127.0.0.1',
-        'PORT': 3306,
-        'USER': 'root',
-        'PASSWORD': 'password',
-        'NAME': 'book',
+        'HOST': '127.0.0.1', # 数据库主机
+        'PORT': 3306, # 数据库端口
+        'USER': 'root', # 数据库用户名
+        'PASSWORD': 'password', # 数据库用户密码
+        'NAME': 'book' # 数据库名字
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

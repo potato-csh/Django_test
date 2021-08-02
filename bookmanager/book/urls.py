@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^set_session/$', set_session),
     url(r'^get_session/$', get_session),
 
+    url(r'index/$',HomeView.as_view())
 ]
